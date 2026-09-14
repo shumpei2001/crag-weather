@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>岩場天気ボード</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Japan Crag Weather &middot; 10-Day Outlook</p>
+    <h1>岩場天気ボード</h1>
+    <p class="sub">登録した岩場の最寄り町・地域の天気を横並びで比較。シルバーウィーク(9/19–9/23)の行き先選びに。</p>
+  </header>
+
+  <div class="toprow">
+    <div class="meta">
+      <span>登録数 <b id="count-label">–</b> か所</span>
+      <span id="updated-label">読み込み中…</span>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <span class="hidden-note" id="hidden-note" style="display:none;"></span>
+      <button class="ghost" id="edit-toggle">＋ 場所を編集</button>
+      <button class="primary" id="refresh-btn">更新</button>
+    </div>
+  </div>
+
+  <div class="legend">
+    <span class="item"><span class="dot good"></span>降水確率20%以下 = 登りやすい</span>
+    <span class="item"><span class="dot caution"></span>20〜50% = 要注意</span>
+    <span class="item"><span class="dot poor"></span>50%超 = 厳しそう</span>
+    <span class="item"><span class="sw-chip">SW</span>シルバーウィーク該当日</span>
+  </div>
+
+  <div class="add-panel" id="add-panel">
+    <label for="add-input">岩場・地名を検索して追加</label>
+    <div class="add-row">
+      <input type="text" id="add-input" placeholder="例：幌尻岳、増毛、瑞牆山 など" />
+      <button id="search-btn">検索</button>
+      <button class="ghost" id="cancel-add">閉じる</button>
+    </div>
+    <div class="search-results" id="search-results"></div>
+    <p class="hint">Open-Meteoのジオコーディングで検索します。ヒットしたら追加してください（この端末にのみ保存されます）。</p>
+  </div>
+
+  <div class="locations" id="locations"></div>
+
+  <footer>
+    天気データ: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>。岩場の正確な位置ではなく最寄りの町・地域の予報です。参考程度にご利用ください。
+  </footer>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

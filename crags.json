@@ -1,0 +1,11 @@
+[
+  {"id": "akaiwa-aoiwa", "name": "赤岩青岩峡", "region": "旭川市(神居古潭)", "prefecture": "北海道", "lat": 43.746, "lon": 142.230},
+  {"id": "yoshitsune", "name": "義経岩", "region": "様似町(日高)", "prefecture": "北海道", "lat": 42.1219, "lon": 142.8722},
+  {"id": "nayoro", "name": "名寄", "region": "名寄市", "prefecture": "北海道", "lat": 44.3559, "lon": 142.4592},
+  {"id": "kamuikotan", "name": "神居古潭", "region": "旭川市", "prefecture": "北海道", "lat": 43.744, "lon": 142.238},
+  {"id": "okutateiwa", "name": "奥立岩", "region": "旭川市", "prefecture": "北海道", "lat": 43.7849, "lon": 142.3073},
+  {"id": "otaru-akaiwa", "name": "小樽赤岩", "region": "小樽市", "prefecture": "北海道", "lat": 43.212, "lon": 140.958},
+  {"id": "tenninkyo", "name": "天人峡", "region": "東川町", "prefecture": "北海道", "lat": 43.702, "lon": 142.679},
+  {"id": "shibetsu-asahi", "name": "士別朝日", "region": "士別市朝日町", "prefecture": "北海道", "lat": 43.99, "lon": 142.32},
+  {"id": "sounkyo", "name": "層雲峡", "region": "上川町", "prefecture": "北海道", "lat": 43.8494, "lon": 142.9481}
+]
