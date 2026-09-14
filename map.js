@@ -8,6 +8,9 @@
   var dateInput = document.getElementById("date-input");
 
   var DOT_COLOR = { good:"#2f7a4f", caution:"#b07a1e", poor:"#5f6f8a" };
+  // Below this zoom level, name labels hide to cut clutter when zoomed out
+  // over a wide area. Adjust freely.
+  var LABEL_MIN_ZOOM = 8;
 
   var locations = [];
   var forecasts = {};
@@ -37,6 +40,11 @@
       days + '<a class="mp-link" href="index.html#card-' + loc.id + '">詳細を見る →</a>';
   }
 
+  function updateLabelVisibility(){
+    var show = map.getZoom() >= LABEL_MIN_ZOOM;
+    map.getContainer().classList.toggle("hide-labels", !show);
+  }
+
   function initMap(){
     map = L.map("map", { scrollWheelZoom:false });
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -44,6 +52,8 @@
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
     map.setView([43.5, 142.8], 7);
+    map.on("zoomend", updateLabelVisibility);
+    updateLabelVisibility();
   }
 
   function indexForDate(data, dateStr){
@@ -112,6 +122,7 @@
       if(!hasFitOnce && bounds.length){
         map.fitBounds(bounds, { padding:[28,28], maxZoom:11 });
         hasFitOnce = true;
+        updateLabelVisibility();
       }
       var now = new Date();
       updatedLabel.innerHTML = "最終更新 <b>" + String(now.getHours()).padStart(2,"0") + ":" + String(now.getMinutes()).padStart(2,"0") + "</b>";
