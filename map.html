@@ -22,7 +22,7 @@
         <span class="view-switch active">🗺 地図</span>
       </nav>
     </div>
-    <p class="sub">ピンをタップすると、その岩場の天気がポップアップで見られます。</p>
+    <p class="sub">日付を選ぶと、その日を中心にピンの色とポップアップが切り替わります。</p>
   </header>
 
   <div class="toprow">
@@ -33,8 +33,13 @@
     <button class="primary" id="refresh-btn">更新</button>
   </div>
 
+  <div class="date-row">
+    <label for="date-input">日付</label>
+    <input type="date" id="date-input" />
+  </div>
+
   <div class="legend">
-    <span class="item"><span class="dot good"></span>明日の降水確率20%以下</span>
+    <span class="item"><span class="dot good"></span>選んだ日の降水確率20%以下</span>
     <span class="item"><span class="dot caution"></span>20〜50%</span>
     <span class="item"><span class="dot poor"></span>50%超</span>
   </div>
@@ -43,11 +48,12 @@
 
   <footer>
     地図: <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">&copy; OpenStreetMap contributors</a>　天気データ: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a><br/>
-    ピンの色は翌日の降水確率の目安です。地点の追加・削除は<a href="index.html">一覧表示</a>から行えます。
+    地点の追加・削除は<a href="index.html">一覧表示</a>・<a href="mobile.html">スマホ表示</a>から行えます。
   </footer>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="shared.js"></script>
 <script src="map.js"></script>
 </body>
 </html>

@@ -16,12 +16,12 @@
         <h1>岩場天気ボード</h1>
       </div>
       <nav class="view-nav">
-        <a class="view-switch" href="index.html">📋 一覧</a>
+        <a class="view-switch" href="index.html" id="to-desktop">📋 一覧</a>
         <span class="view-switch active">📱 スマホ</span>
         <a class="view-switch" href="map.html">🗺 地図</a>
       </nav>
     </div>
-    <p class="sub">日数を絞って、登録した岩場をまとめてチェック。</p>
+    <p class="sub">日付を選ぶと、その前後2日分を登録した岩場ぜんぶで一気にチェックできます。</p>
   </header>
 
   <div class="meta m-meta">
@@ -29,14 +29,26 @@
     <button class="primary" id="refresh-btn">更新</button>
   </div>
 
-  <div class="daycount-row">
-    <span class="daycount-label">表示日数</span>
-    <div class="segmented" id="daycount-seg">
-      <button data-days="3">3日</button>
-      <button data-days="5">5日</button>
-      <button data-days="7">7日</button>
-      <button data-days="10">10日</button>
+  <div class="date-row">
+    <label for="date-input">日付</label>
+    <input type="date" id="date-input" />
+    <span class="date-hint">前後2日を表示</span>
+  </div>
+
+  <div class="toprow">
+    <span class="hidden-note" id="hidden-note" style="display:none;"></span>
+    <button class="ghost" id="edit-toggle">＋ 場所を編集</button>
+  </div>
+
+  <div class="add-panel" id="add-panel">
+    <label for="add-input">岩場・地名を検索して追加</label>
+    <div class="add-row">
+      <input type="text" id="add-input" placeholder="例：幌尻岳、増毛、瑞牆山 など" />
+      <button id="search-btn">検索</button>
+      <button class="ghost" id="cancel-add">閉じる</button>
     </div>
+    <div class="search-results" id="search-results"></div>
+    <p class="hint">Open-Meteoのジオコーディングで検索します。ヒットしたら追加してください（この端末にのみ保存されます）。</p>
   </div>
 
   <div class="jump-row" id="jump-row"></div>
@@ -47,15 +59,14 @@
     <span class="item"><span class="dot good"></span>降水確率20%以下</span>
     <span class="item"><span class="dot caution"></span>20〜50%</span>
     <span class="item"><span class="dot poor"></span>50%超</span>
-    <span class="item"><span class="sw-chip">SW</span>シルバーウィーク</span>
   </div>
 
   <footer>
-    天気データ: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>。岩場の正確な位置ではなく最寄りの町・地域の予報です。<br/>
-    地点の追加・削除は<a href="index.html">一覧表示</a>から行えます。
+    天気データ: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>。岩場の正確な位置ではなく最寄りの町・地域の予報です。
   </footer>
 </div>
 
+<script src="shared.js"></script>
 <script src="mobile.js"></script>
 </body>
 </html>

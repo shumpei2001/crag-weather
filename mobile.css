@@ -2,15 +2,6 @@
 .m-meta{justify-content:space-between;}
 .m-meta button{padding:7px 14px;}
 
-.daycount-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-.daycount-label{font-size:12.5px;color:var(--text-muted);font-weight:600;}
-.segmented{display:flex;border:1px solid var(--border);border-radius:9px;overflow:hidden;}
-.segmented button{
-  border:none;border-radius:0;background:var(--surface);color:var(--text-muted);
-  padding:7px 14px;font-size:13px;border-right:1px solid var(--border);
-}
-.segmented button:last-child{border-right:none;}
-.segmented button.active{background:var(--accent);color:#fff8f0;font-weight:700;}
 
 .jump-row{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;-webkit-overflow-scrolling:touch;}
 .jump-chip{

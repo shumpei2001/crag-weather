@@ -5,13 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>岩場天気ボード</title>
 <link rel="stylesheet" href="style.css" />
+<script>
+  // Narrow-screen visitors get the touch-friendly layout automatically;
+  // a visitor who came back here on purpose (via the mobile page's nav) is left alone.
+  try{
+    var prefersDesktop = sessionStorage.getItem("crag-weather-prefer-desktop") === "1";
+    if(!prefersDesktop && window.matchMedia("(max-width: 700px)").matches){
+      location.replace("mobile.html");
+    }
+  }catch(e){}
+</script>
 </head>
 <body>
 <div class="wrap">
   <header>
     <div class="header-top">
       <div>
-        <p class="eyebrow">Japan Crag Weather &middot; 10-Day Outlook</p>
+        <p class="eyebrow">Japan Crag Weather &middot; 16-Day Outlook</p>
         <h1>岩場天気ボード</h1>
       </div>
       <nav class="view-nav">
@@ -20,7 +30,7 @@
         <a class="view-switch" href="map.html">🗺 地図</a>
       </nav>
     </div>
-    <p class="sub">登録した岩場の最寄り町・地域の天気を横並びで比較。シルバーウィーク(9/19–9/23)の行き先選びに。</p>
+    <p class="sub">登録した岩場の最寄り町・地域の天気を横並びで比較。1枚をスクロールすると全部そろって動きます。</p>
   </header>
 
   <div class="toprow">
@@ -39,7 +49,6 @@
     <span class="item"><span class="dot good"></span>降水確率20%以下 = 登りやすい</span>
     <span class="item"><span class="dot caution"></span>20〜50% = 要注意</span>
     <span class="item"><span class="dot poor"></span>50%超 = 厳しそう</span>
-    <span class="item"><span class="sw-chip">SW</span>シルバーウィーク該当日</span>
   </div>
 
   <div class="add-panel" id="add-panel">
@@ -60,6 +69,7 @@
   </footer>
 </div>
 
+<script src="shared.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
