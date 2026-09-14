@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>岩場天気マップ</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="map.css" />
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="header-top">
+      <div>
+        <p class="eyebrow">Japan Crag Weather &middot; Map</p>
+        <h1>岩場天気マップ</h1>
+      </div>
+      <nav class="view-nav">
+        <a class="view-switch" href="index.html">📋 一覧</a>
+        <a class="view-switch" href="mobile.html">📱 スマホ</a>
+        <span class="view-switch active">🗺 地図</span>
+      </nav>
+    </div>
+    <p class="sub">ピンをタップすると、その岩場の天気がポップアップで見られます。</p>
+  </header>
+
+  <div class="toprow">
+    <div class="meta">
+      <span>登録数 <b id="count-label">–</b> か所</span>
+      <span id="updated-label">読み込み中…</span>
+    </div>
+    <button class="primary" id="refresh-btn">更新</button>
+  </div>
+
+  <div class="legend">
+    <span class="item"><span class="dot good"></span>明日の降水確率20%以下</span>
+    <span class="item"><span class="dot caution"></span>20〜50%</span>
+    <span class="item"><span class="dot poor"></span>50%超</span>
+  </div>
+
+  <div id="map" class="map-box"></div>
+
+  <footer>
+    地図: <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">&copy; OpenStreetMap contributors</a>　天気データ: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a><br/>
+    ピンの色は翌日の降水確率の目安です。地点の追加・削除は<a href="index.html">一覧表示</a>から行えます。
+  </footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="map.js"></script>
+</body>
+</html>

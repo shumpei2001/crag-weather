@@ -15,9 +15,13 @@
         <p class="eyebrow">Japan Crag Weather &middot; Mobile</p>
         <h1>岩場天気ボード</h1>
       </div>
-      <a class="view-switch" href="index.html">🖥 一覧表示</a>
+      <nav class="view-nav">
+        <a class="view-switch" href="index.html">📋 一覧</a>
+        <span class="view-switch active">📱 スマホ</span>
+        <a class="view-switch" href="map.html">🗺 地図</a>
+      </nav>
     </div>
-    <p class="sub">岩場を選んで、その日ごとの天気を縦にスクロールしてチェック。</p>
+    <p class="sub">日数を絞って、登録した岩場をまとめてチェック。</p>
   </header>
 
   <div class="meta m-meta">
@@ -25,15 +29,19 @@
     <button class="primary" id="refresh-btn">更新</button>
   </div>
 
-  <div class="chip-row" id="chip-row"></div>
-
-  <div class="m-card" id="m-card">
-    <div class="m-card-head">
-      <h2 id="m-name">–</h2>
-      <span class="region" id="m-region"></span>
+  <div class="daycount-row">
+    <span class="daycount-label">表示日数</span>
+    <div class="segmented" id="daycount-seg">
+      <button data-days="3">3日</button>
+      <button data-days="5">5日</button>
+      <button data-days="7">7日</button>
+      <button data-days="10">10日</button>
     </div>
-    <div class="day-list" id="day-list"></div>
   </div>
+
+  <div class="jump-row" id="jump-row"></div>
+
+  <div class="locations m-locations" id="locations"></div>
 
   <div class="legend">
     <span class="item"><span class="dot good"></span>降水確率20%以下</span>
