@@ -79,6 +79,13 @@ h1{
   margin:0 0 4px;
 }
 header p.sub{margin:6px 0 0;color:var(--text-muted);font-size:14.5px;max-width:62ch;}
+.header-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;}
+.view-switch{
+  font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--text-muted);
+  border:1px solid var(--border);border-radius:8px;padding:6px 12px;text-decoration:none;
+  white-space:nowrap;flex:none;
+}
+.view-switch:hover{border-color:var(--accent);color:var(--accent-ink);}
 
 .toprow{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;}
 .meta{
