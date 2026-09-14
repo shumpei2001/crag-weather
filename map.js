@@ -125,6 +125,12 @@
           fillOpacity: 0.9
         }).addTo(map);
         marker.bindPopup(popupHtml(loc, data), { closeButton:true, maxWidth:260 });
+        marker.bindTooltip(loc.name, {
+          permanent: true,
+          direction: "top",
+          offset: [0, -8],
+          className: "mp-tooltip"
+        });
         markers.push(marker);
         bounds.push([loc.lat, loc.lon]);
       });
