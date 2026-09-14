@@ -115,18 +115,19 @@
     }
     updatedLabel.textContent = "取得中…";
     refreshBtn.disabled = true;
-    S.fetchForecastBatch(visible, 16).then(function(results){
-      forecasts = {};
-      visible.forEach(function(loc, i){ forecasts[loc.id] = results[i]; });
-      var first = results.filter(Boolean)[0];
-      if(first && first.daily){
+    S.getForecasts(visible, 16).then(function(result){
+      forecasts = result.map;
+      visible.forEach(function(loc){
+        if(!forecasts[loc.id]) forecasts[loc.id] = { error: true };
+      });
+      var first = visible.map(function(loc){ return forecasts[loc.id]; }).filter(function(d){ return d && d.daily; })[0];
+      if(first){
         dateInput.min = first.daily.time[0];
         dateInput.max = first.daily.time[first.daily.time.length - 1];
         if(!dateInput.value) dateInput.value = first.daily.time[0];
       }
       renderCards();
-      var now = new Date();
-      updatedLabel.innerHTML = "最終更新 <b>" + String(now.getHours()).padStart(2,"0") + ":" + String(now.getMinutes()).padStart(2,"0") + "</b>";
+      updatedLabel.innerHTML = "最終更新 <b>" + S.fmtUpdated(result.generatedAt) + "</b>";
       refreshBtn.disabled = false;
     }).catch(function(){
       forecasts = {};

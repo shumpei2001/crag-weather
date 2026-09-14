@@ -86,6 +86,44 @@ window.CragShared = (function(){
     });
   }
 
+  // weather-cache.json is written on a schedule by .github/workflows/update-weather.yml
+  // (a batched Open-Meteo call for everything in crags.json). Pages read it instead of
+  // calling Open-Meteo themselves; a location not in it (added locally via the editor,
+  // or the cache file missing/stale) still gets fetched live, per-page.
+  function loadWeatherCache(){
+    return fetch("weather-cache.json", { cache: "no-store" })
+      .then(function(r){ if(!r.ok) throw new Error("no cache"); return r.json(); })
+      .catch(function(){ return null; });
+  }
+
+  function fmtUpdated(iso){
+    var d = iso ? new Date(iso) : new Date();
+    return (d.getMonth()+1) + "/" + d.getDate() + " " + String(d.getHours()).padStart(2,"0") + ":" + String(d.getMinutes()).padStart(2,"0");
+  }
+
+  // Resolves { map: {id -> forecast}, generatedAt, liveFailed } for the given
+  // locations, preferring the cache and falling back to a live batched fetch
+  // for whatever isn't in it. Never rejects: a location simply missing from
+  // `map` means neither source had it.
+  function getForecasts(locations, days){
+    days = days || 16;
+    return loadWeatherCache().then(function(cache){
+      var byId = (cache && cache.byId) ? cache.byId : {};
+      var generatedAt = cache ? cache.generatedAt : null;
+      var live = locations.filter(function(loc){ return !byId[loc.id]; });
+      return fetchForecastBatch(live, days).catch(function(){ return null; }).then(function(liveResults){
+        var map = {};
+        locations.forEach(function(loc){
+          if(byId[loc.id]) map[loc.id] = byId[loc.id];
+        });
+        if(liveResults){
+          live.forEach(function(loc, i){ map[loc.id] = liveResults[i]; });
+        }
+        return { map: map, generatedAt: generatedAt, liveFailed: live.length > 0 && !liveResults };
+      });
+    });
+  }
+
   function fetchForecastOne(loc, days){
     days = days || 16;
     var url = "https://api.open-meteo.com/v1/forecast?latitude=" + loc.lat +
@@ -192,10 +230,11 @@ window.CragShared = (function(){
     loadJSON: loadJSON, saveJSON: saveJSON,
     loadCustom: loadCustom, saveCustom: saveCustom,
     loadHidden: loadHidden, saveHidden: saveHidden,
-    classify: classify, fmtDate: fmtDate, fmtWeekday: fmtWeekday,
+    classify: classify, fmtDate: fmtDate, fmtWeekday: fmtWeekday, fmtUpdated: fmtUpdated,
     todayISO: todayISO, addDaysISO: addDaysISO,
     dayCellHtml: dayCellHtml,
     fetchForecastBatch: fetchForecastBatch, fetchForecastOne: fetchForecastOne,
+    loadWeatherCache: loadWeatherCache, getForecasts: getForecasts,
     geocodeSearch: geocodeSearch, loadCrags: loadCrags, visibleOf: visibleOf,
     initEditor: initEditor
   };

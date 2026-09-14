@@ -97,11 +97,10 @@
     }
     updatedLabel.textContent = "取得中…";
     refreshBtn.disabled = true;
-    S.fetchForecastBatch(visible, 16).then(function(results){
-      forecasts = {};
+    S.getForecasts(visible, 16).then(function(result){
+      forecasts = result.map;
       var bounds = [];
-      visible.forEach(function(loc, i){
-        forecasts[loc.id] = results[i];
+      visible.forEach(function(loc){
         bounds.push([loc.lat, loc.lon]);
         if(!markersById[loc.id]){
           var marker = L.circleMarker([loc.lat, loc.lon], {
@@ -112,7 +111,7 @@
           markersById[loc.id] = marker;
         }
       });
-      var first = results.filter(function(r){ return r && r.daily; })[0];
+      var first = visible.map(function(loc){ return forecasts[loc.id]; }).filter(function(d){ return d && d.daily; })[0];
       if(first){
         dateInput.min = first.daily.time[0];
         dateInput.max = first.daily.time[first.daily.time.length - 1];
@@ -124,8 +123,7 @@
         hasFitOnce = true;
         updateLabelVisibility();
       }
-      var now = new Date();
-      updatedLabel.innerHTML = "最終更新 <b>" + String(now.getHours()).padStart(2,"0") + ":" + String(now.getMinutes()).padStart(2,"0") + "</b>";
+      updatedLabel.innerHTML = "最終更新 <b>" + S.fmtUpdated(result.generatedAt) + "</b>";
       refreshBtn.disabled = false;
     }).catch(function(){
       updatedLabel.textContent = "取得に失敗しました";

@@ -88,12 +88,12 @@
     }
     updatedLabel.textContent = "取得中…";
     refreshBtn.disabled = true;
-    S.fetchForecastBatch(visible, 16).then(function(results){
-      visible.forEach(function(loc, i){
-        renderCard(loc, results[i], null);
+    S.getForecasts(visible, 16).then(function(result){
+      visible.forEach(function(loc){
+        var data = result.map[loc.id];
+        renderCard(loc, data, data ? null : true);
       });
-      var now = new Date();
-      updatedLabel.innerHTML = "最終更新 <b>" + String(now.getHours()).padStart(2,"0") + ":" + String(now.getMinutes()).padStart(2,"0") + "</b>";
+      updatedLabel.innerHTML = "最終更新 <b>" + S.fmtUpdated(result.generatedAt) + "</b>";
       refreshBtn.disabled = false;
     }).catch(function(){
       visible.forEach(function(loc){ renderCard(loc, null, true); });
