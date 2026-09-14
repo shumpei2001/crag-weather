@@ -100,7 +100,9 @@
   }
 
   function loadAll(){
-    var visible = visibleLocations();
+    var visible = visibleLocations().slice().sort(function(a, b){
+      return (a.priority || 0) - (b.priority || 0);
+    });
     countLabel.textContent = locations.length;
     if(!map) initMap();
     markers.forEach(function(m){ map.removeLayer(m); });
@@ -146,7 +148,7 @@
 
   refreshBtn.addEventListener("click", loadAll);
 
-  fetch("crags.json").then(function(r){ return r.json(); }).then(function(base){
+  fetch("crags.json", { cache: "no-store" }).then(function(r){ return r.json(); }).then(function(base){
     var custom = loadJSON(LOCAL_KEY) || [];
     locations = base.concat(custom);
     loadAll();

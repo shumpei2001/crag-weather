@@ -291,7 +291,7 @@
   searchBtn.addEventListener("click", doSearch);
   addInput.addEventListener("keydown", function(e){ if(e.key === "Enter"){ e.preventDefault(); doSearch(); } });
 
-  fetch("crags.json").then(function(r){ return r.json(); }).then(function(base){
+  fetch("crags.json", { cache: "no-store" }).then(function(r){ return r.json(); }).then(function(base){
     locations = base.concat(loadCustom());
     render();
   }).catch(function(){

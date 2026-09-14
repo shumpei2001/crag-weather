@@ -212,7 +212,7 @@
   dayCount = loadDayCount();
   updateSegUI();
 
-  fetch("crags.json").then(function(r){ return r.json(); }).then(function(base){
+  fetch("crags.json", { cache: "no-store" }).then(function(r){ return r.json(); }).then(function(base){
     var custom = loadJSON(LOCAL_KEY) || [];
     locations = base.concat(custom);
     loadAll();
