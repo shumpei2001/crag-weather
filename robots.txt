@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://shumpei2001.github.io/crag-weather/sitemap.xml
