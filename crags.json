@@ -7,5 +7,8 @@
   {"id": "yoshitsune", "name": "義経岩", "region": "様似町(日高)", "prefecture": "北海道", "lat": 42.1219, "lon": 142.8722, "priority": 4},
   {"id": "shibetsu-asahi", "name": "士別朝日", "region": "士別市朝日町", "prefecture": "北海道", "lat": 43.99, "lon": 142.32, "priority": 3},
   {"id": "tenninkyo", "name": "天人峡", "region": "東川町", "prefecture": "北海道", "lat": 43.702, "lon": 142.679, "priority": 2},
-  {"id": "sounkyo", "name": "層雲峡", "region": "上川町", "prefecture": "北海道", "lat": 43.8494, "lon": 142.9481, "priority": 1}
+  {"id": "sounkyo", "name": "層雲峡", "region": "上川町", "prefecture": "北海道", "lat": 43.8494, "lon": 142.9481, "priority": 1},
+  {"id": "ogawayama", "name": "小川山", "region": "川上村", "prefecture": "長野県", "lat": 35.9082591, "lon": 138.6402103, "priority": 12},
+  {"id": "mizugakiyama", "name": "瑞牆山", "region": "北杜市", "prefecture": "山梨県", "lat": 35.8963116, "lon": 138.5732824, "priority": 11},
+  {"id": "tachiokayama", "name": "太刀岡山", "region": "甲府市", "prefecture": "山梨県", "lat": 35.7727361, "lon": 138.532817, "priority": 10}
 ]
