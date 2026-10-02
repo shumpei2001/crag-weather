@@ -7,7 +7,7 @@
   var refreshBtn = document.getElementById("refresh-btn");
   var dateInput = document.getElementById("date-input");
 
-  var DOT_COLOR = { good:"#2f7a4f", caution:"#b07a1e", poor:"#5f6f8a" };
+  var DOT_COLOR = { good:"#16a34a", caution:"#e08e00", poor:"#dc2626" };
   // Below this zoom level, name labels hide to cut clutter when zoomed out
   // over a wide area. Adjust freely.
   var LABEL_MIN_ZOOM = 8;
