@@ -10,5 +10,16 @@
   {"id": "sounkyo", "name": "層雲峡", "region": "上川町", "prefecture": "北海道", "lat": 43.8494, "lon": 142.9481, "priority": 1},
   {"id": "ogawayama", "name": "小川山", "region": "川上村", "prefecture": "長野県", "lat": 35.9082591, "lon": 138.6402103, "priority": 12},
   {"id": "mizugakiyama", "name": "瑞牆山", "region": "北杜市", "prefecture": "山梨県", "lat": 35.8963116, "lon": 138.5732824, "priority": 11},
-  {"id": "tachiokayama", "name": "太刀岡山", "region": "甲府市", "prefecture": "山梨県", "lat": 35.7727361, "lon": 138.532817, "priority": 10}
+  {"id": "tachiokayama", "name": "太刀岡山", "region": "甲府市", "prefecture": "山梨県", "lat": 35.7727361, "lon": 138.532817, "priority": 10},
+  {"id": "hiwadayama", "name": "日和田山", "region": "日高市", "prefecture": "埼玉県", "lat": 35.8938679, "lon": 139.3048548, "priority": 18},
+  {"id": "futagoyama", "name": "二子山", "region": "横瀬町", "prefecture": "埼玉県", "lat": 35.9618412, "lon": 139.138015, "priority": 19},
+  {"id": "mitake-boulder", "name": "御岳ボルダー", "region": "青梅市", "prefecture": "東京都", "lat": 35.8028229, "lon": 139.1885232, "priority": 20},
+  {"id": "koshizawa", "name": "越沢バットレス", "region": "青梅市", "prefecture": "東京都", "lat": 35.804511, "lon": 139.133742, "priority": 13},
+  {"id": "yugawara-makuiwa", "name": "湯河原幕岩", "region": "湯河原町", "prefecture": "神奈川県", "lat": 35.1649806, "lon": 139.0928462, "priority": 22},
+  {"id": "kogashiyama", "name": "古賀志山", "region": "宇都宮市", "prefecture": "栃木県", "lat": 36.6217584, "lon": 139.7714849, "priority": 16},
+  {"id": "myogisan", "name": "妙義山", "region": "富岡市", "prefecture": "群馬県", "lat": 36.3004733, "lon": 138.762507, "priority": 14},
+  {"id": "ichinokurasawa", "name": "一ノ倉沢(谷川岳)", "region": "みなかみ町", "prefecture": "群馬県", "lat": 36.8469843, "lon": 138.9423514, "priority": 12},
+  {"id": "mitsutoge", "name": "三つ峠", "region": "富士河口湖町", "prefecture": "山梨県", "lat": 35.556126, "lon": 138.792032, "priority": 17},
+  {"id": "jogasaki", "name": "城ヶ崎", "region": "伊東市", "prefecture": "静岡県", "lat": 34.892684, "lon": 139.1391483, "priority": 21},
+  {"id": "kasagiyama", "name": "笠置山", "region": "中津川市", "prefecture": "岐阜県", "lat": 35.5003255, "lon": 137.3427798, "priority": 15}
 ]
