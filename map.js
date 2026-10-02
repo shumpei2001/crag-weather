@@ -20,7 +20,7 @@
 
   function popupHtml(loc, data, centerIdx){
     if(!data || data.error){
-      return '<p class="mp-name">' + loc.name + '</p><p class="mp-region">' + loc.region + '</p>' +
+      return '<p class="mp-name">' + loc.name + S.starBtnHtml(loc.id) + '</p><p class="mp-region">' + loc.region + '</p>' +
         '<p style="font-size:12.5px;color:var(--poor-ink);">天気の取得に失敗しました</p>';
     }
     var d = data.daily;
@@ -36,7 +36,7 @@
         '<span class="pop ' + S.classify(pop) + '">' + (pop === null ? "–" : pop + "%") + '</span></div>';
     }
     days += '</div>';
-    return '<p class="mp-name">' + loc.name + '</p><p class="mp-region">' + loc.region + '</p>' +
+    return '<p class="mp-name">' + loc.name + S.starBtnHtml(loc.id) + '</p><p class="mp-region">' + loc.region + '</p>' +
       days + '<a class="mp-link" href="index.html#card-' + loc.id + '">詳細を見る →</a>';
   }
 
@@ -92,7 +92,7 @@
     });
 
     if(!visible.length){
-      updatedLabel.textContent = "表示中の地点がありません";
+      updatedLabel.textContent = S.emptyMessage();
       return;
     }
     updatedLabel.textContent = "取得中…";
@@ -132,6 +132,10 @@
   }
 
   dateInput.addEventListener("change", applyDate);
+  S.bindFavClicks(document.getElementById("map"), function(id, on){
+    if(!on && S.loadFavOnly()) loadAll();
+  });
+  S.initFavToggle(document.getElementById("fav-toggle"), loadAll);
   refreshBtn.addEventListener("click", loadAll);
 
   S.loadCrags().then(function(all){

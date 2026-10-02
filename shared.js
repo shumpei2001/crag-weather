@@ -148,9 +148,64 @@ window.CragShared = (function(){
     });
   }
 
+  var FAV_KEY = "crag-weather-favs-v1";
+  var FAVONLY_KEY = "crag-weather-favonly-v1";
+
+  function loadFavs(){ var v = loadJSON(FAV_KEY); return Array.isArray(v) ? v : []; }
+  function isFav(id){ return loadFavs().indexOf(id) !== -1; }
+  function toggleFav(id){
+    var f = loadFavs();
+    var i = f.indexOf(id);
+    if(i === -1) f.push(id); else f.splice(i, 1);
+    saveJSON(FAV_KEY, f);
+    return i === -1;
+  }
+  function loadFavOnly(){ return loadJSON(FAVONLY_KEY) === true; }
+  function saveFavOnly(v){ saveJSON(FAVONLY_KEY, !!v); }
+
+  function starBtnHtml(id){
+    var on = isFav(id);
+    return '<button class="star-btn' + (on ? " on" : "") + '" data-fav="' + id + '" aria-pressed="' + on + '" title="お気に入り">' + (on ? "★" : "☆") + '</button>';
+  }
+  function syncStar(btn, on){
+    btn.classList.toggle("on", on);
+    btn.textContent = on ? "★" : "☆";
+    btn.setAttribute("aria-pressed", on);
+  }
+  // Capture phase so it still fires inside Leaflet popups, which stop click propagation.
+  function bindFavClicks(container, onChange){
+    container.addEventListener("click", function(e){
+      var b = e.target.closest("[data-fav]");
+      if(!b) return;
+      var on = toggleFav(b.getAttribute("data-fav"));
+      syncStar(b, on);
+      if(onChange) onChange(b.getAttribute("data-fav"), on);
+    }, true);
+  }
+  function initFavToggle(btn, onChange){
+    function paint(){
+      var on = loadFavOnly();
+      btn.classList.toggle("on", on);
+      btn.textContent = (on ? "★" : "☆") + " お気に入りのみ";
+      btn.setAttribute("aria-pressed", on);
+    }
+    paint();
+    btn.addEventListener("click", function(){
+      saveFavOnly(!loadFavOnly());
+      paint();
+      onChange();
+    });
+  }
+  function emptyMessage(){
+    return loadFavOnly() ? "お気に入りが未登録です（★を押して追加）" : "表示中の地点がありません";
+  }
+
   function visibleOf(locations){
     var hidden = loadHidden();
-    return locations.filter(function(loc){ return hidden.indexOf(loc.id) === -1; });
+    var favs = loadFavOnly() ? loadFavs() : null;
+    return locations.filter(function(loc){
+      return hidden.indexOf(loc.id) === -1 && (!favs || favs.indexOf(loc.id) !== -1);
+    });
   }
 
   // Wires a standard "add-panel" (search box) + per-card remove buttons.
@@ -236,6 +291,8 @@ window.CragShared = (function(){
     fetchForecastBatch: fetchForecastBatch, fetchForecastOne: fetchForecastOne,
     loadWeatherCache: loadWeatherCache, getForecasts: getForecasts,
     geocodeSearch: geocodeSearch, loadCrags: loadCrags, visibleOf: visibleOf,
+    isFav: isFav, loadFavOnly: loadFavOnly, starBtnHtml: starBtnHtml,
+    bindFavClicks: bindFavClicks, initFavToggle: initFavToggle, emptyMessage: emptyMessage,
     initEditor: initEditor
   };
 })();

@@ -42,3 +42,5 @@
 .pop.poor{background:var(--poor-bg);color:var(--poor-ink);}
 .mp-link{font-size:12px;font-weight:600;color:var(--accent-ink);text-decoration:none;}
 .mp-link:hover{text-decoration:underline;}
+
+.mp-name .star-btn{margin-left:6px;font-size:16px;}

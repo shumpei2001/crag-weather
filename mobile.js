@@ -72,7 +72,7 @@
       card.className = "card";
       card.id = "card-" + loc.id;
       var removeBtn = editor && editor.isEditMode() ? '<button class="icon-btn" data-remove="' + loc.id + '">✕ 削除</button>' : "";
-      var head = '<div class="card-head"><div class="card-title"><h2>' + loc.name + '</h2>' +
+      var head = '<div class="card-head"><div class="card-title">' + S.starBtnHtml(loc.id) + '<h2>' + loc.name + '</h2>' +
         '<span class="region">' + loc.region + '</span></div>' + removeBtn + '</div>';
       var data = forecasts[loc.id];
       var body;
@@ -110,7 +110,7 @@
     var visible = S.visibleOf(locations);
     renderCards();
     if(!visible.length){
-      updatedLabel.textContent = "表示中の地点がありません";
+      updatedLabel.textContent = S.emptyMessage();
       return;
     }
     updatedLabel.textContent = "取得中…";
@@ -160,6 +160,11 @@
   });
 
   refreshBtn.addEventListener("click", loadAll);
+
+  S.bindFavClicks(locationsEl, function(id, on){
+    if(!on && S.loadFavOnly()) render();
+  });
+  S.initFavToggle(document.getElementById("fav-toggle"), render);
 
   editor = S.initEditor({
     addInput: addInput, searchBtn: searchBtn, cancelBtn: cancelAdd,

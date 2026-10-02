@@ -139,6 +139,13 @@ button:disabled{opacity:.5;cursor:default;}
   background:none;border:none;padding:2px 4px;cursor:pointer;
 }
 .icon-btn:hover{color:var(--poor-ink);}
+.star-btn{
+  background:none;border:none;padding:0 2px;margin:0;font-size:19px;line-height:1;
+  color:var(--text-faint);cursor:pointer;align-self:center;
+}
+.star-btn:hover{color:var(--caution);border:none;}
+.star-btn.on{color:var(--caution);}
+.fav-toggle.on{background:var(--caution-bg);border-color:var(--caution);color:var(--caution-ink);}
 
 .strip{
   display:grid;grid-auto-flow:column;grid-auto-columns:88px;gap:8px;
