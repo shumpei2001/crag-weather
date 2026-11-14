@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Japan Crag Weather Map - climbing crag forecasts on a map</title>
+<meta name="description" content="More than 190 climbing and bouldering crags across Japan as pins on a full-screen map. Tap a pin to see the weather forecast." />
+<meta name="robots" content="index,follow" />
+<link rel="canonical" href="https://weather.japancrags.com/en/map.html" />
+<link rel="alternate" hreflang="ja" href="https://weather.japancrags.com/map.html" data-path="../map.html" />
+<link rel="alternate" hreflang="en" href="https://weather.japancrags.com/en/map.html" data-path="map.html" />
+<link rel="alternate" hreflang="x-default" href="https://weather.japancrags.com/en/map.html" />
+<script>try{var p=localStorage.getItem("crag-weather-lang"),c=document.documentElement.lang;if(p&&p!==c){var a=document.querySelector('link[rel=alternate][hreflang="'+p+'"]');if(a)location.replace(a.getAttribute("data-path"))}}catch(e){}</script>
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Japan Crag Weather" />
+<meta property="og:title" content="Japan Crag Weather Map - climbing crag forecasts on a map" />
+<meta property="og:description" content="More than 190 climbing and bouldering crags across Japan as pins on a full-screen map. Tap a pin to see the weather forecast." />
+<meta property="og:url" content="https://weather.japancrags.com/en/map.html" />
+<meta property="og:locale" content="en_US" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+<link rel="stylesheet" href="../style.css" />
+<link rel="stylesheet" href="../map.css" />
+</head>
+<body class="map-page">
+<div class="map-shell">
+  <div class="map-bar">
+    <h1>Japan Crag Weather Map</h1>
+    <nav class="view-nav">
+      <a class="view-switch" href="index.html">📋 Table</a>
+      <a class="view-switch" href="mobile.html">📱 Phone</a>
+      <span class="view-switch active">🗺 Map</span>
+      <a class="lang-btn" href="../map.html" hreflang="ja" lang="ja" data-lang="ja">日本語</a>
+    </nav>
+    <span class="grow"></span>
+    <div class="bar-controls">
+      <label for="date-input" class="check">Date</label>
+      <input type="date" id="date-input" />
+      <label class="check"><input type="checkbox" id="more-toggle" checked /> Show more crags</label>
+      <button class="ghost fav-toggle" id="fav-toggle">☆ Favorites only</button>
+      <button class="primary" id="refresh-btn">Refresh</button>
+    </div>
+    <div class="meta">
+      <span>Crags <b id="count-label">–</b></span>
+      <span id="updated-label">Loading…</span>
+    </div>
+  </div>
+
+  <div id="map" class="map-box"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>window.CW_ROOT = "../";</script>
+<script src="../shared.js"></script>
+<script src="../map.js"></script>
+</body>
+</html>

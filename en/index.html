@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Japan Crag Weather - 16-day forecast for climbing crags in Japan</title>
+<meta name="description" content="Compare the 16-day weather forecast for more than 190 climbing and bouldering crags across Japan. A free tool with a table view, a full-screen map and a phone view that ranks crags by day." />
+<meta name="robots" content="index,follow" />
+<link rel="canonical" href="https://weather.japancrags.com/en/" />
+<link rel="alternate" hreflang="ja" href="https://weather.japancrags.com/" data-path="../" />
+<link rel="alternate" hreflang="en" href="https://weather.japancrags.com/en/" data-path="./" />
+<link rel="alternate" hreflang="x-default" href="https://weather.japancrags.com/en/" />
+<script>try{var p=localStorage.getItem("crag-weather-lang"),c=document.documentElement.lang;if(p&&p!==c){var a=document.querySelector('link[rel=alternate][hreflang="'+p+'"]');if(a)location.replace(a.getAttribute("data-path"))}}catch(e){}</script>
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Japan Crag Weather" />
+<meta property="og:title" content="Japan Crag Weather - 16-day forecast for climbing crags in Japan" />
+<meta property="og:description" content="Compare the 16-day weather forecast for more than 190 climbing and bouldering crags across Japan. A free tool." />
+<meta property="og:url" content="https://weather.japancrags.com/en/" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:card" content="summary" />
+<link rel="stylesheet" href="../style.css" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Japan Crag Weather",
+  "url": "https://weather.japancrags.com/en/",
+  "description": "Compare the 16-day weather forecast for more than 190 climbing and bouldering crags across Japan.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "inLanguage": "en",
+  "isAccessibleForFree": true
+}
+</script>
+<script>
+  // Narrow-screen visitors get the touch-friendly layout automatically;
+  // a visitor who came back here on purpose (via the phone page's nav) is left alone.
+  try{
+    var prefersDesktop = sessionStorage.getItem("crag-weather-prefer-desktop") === "1";
+    if(!prefersDesktop && window.matchMedia("(max-width: 700px)").matches){
+      location.replace("mobile.html");
+    }
+  }catch(e){}
+</script>
+</head>
+<body>
+<div class="wrap wide">
+  <header>
+    <div class="header-top">
+      <div>
+        <p class="eyebrow">Japan Crag Weather &middot; 16-Day Outlook</p>
+        <h1>Japan Crag Weather</h1>
+      </div>
+      <nav class="view-nav">
+        <span class="view-switch active">📋 Table</span>
+        <a class="view-switch" href="mobile.html">📱 Phone</a>
+        <a class="view-switch" href="map.html">🗺 Map</a>
+        <a class="lang-btn" href="../" hreflang="ja" lang="ja" data-lang="ja">日本語</a>
+      </nav>
+    </div>
+    <p class="sub">One row per crag, the next 16 days across. Click a date to sort the crags by the lowest chance of rain on that day.</p>
+  </header>
+
+  <div class="toprow">
+    <div class="meta">
+      <span id="shown-label">–</span>
+      <span id="updated-label">Loading…</span>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+      <span class="hidden-note" id="hidden-note" style="display:none;"></span>
+      <button class="ghost fav-toggle" id="fav-toggle">☆ Favorites only</button>
+      <button class="ghost" id="edit-toggle">+ Edit places</button>
+      <button class="primary" id="refresh-btn">Refresh</button>
+    </div>
+  </div>
+
+  <div class="filters">
+    <select id="pref-select" aria-label="Area"><option value="">All areas</option></select>
+    <input type="search" id="query-input" placeholder="Search crags" aria-label="Search crags" />
+    <label class="check"><input type="checkbox" id="more-toggle" checked /> Show more crags</label>
+  </div>
+
+  <div class="legend">
+    <span class="item"><span class="dot good"></span>Rain chance 20% or less = good for climbing</span>
+    <span class="item"><span class="dot caution"></span>20–50% = take care</span>
+    <span class="item"><span class="dot poor"></span>Over 50% = looks hard</span>
+  </div>
+
+  <div class="add-panel" id="add-panel">
+    <label for="add-input">Search for a crag or place to add</label>
+    <div class="add-row">
+      <input type="text" id="add-input" placeholder="For example: Ogawayama, Mizugaki" />
+      <button id="search-btn">Search</button>
+      <button class="ghost" id="cancel-add">Close</button>
+    </div>
+    <div class="search-results" id="search-results"></div>
+    <p class="hint">Searches with the Open-Meteo geocoder. Add a result to keep it (saved on this device only).</p>
+  </div>
+
+  <div class="matrix-wrap" id="matrix"></div>
+
+  <footer>
+    Weather data: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>. Forecasts are for the crag's position; in mountains and valleys the real weather can differ. Use as a guide only.<br/>
+    <a href="https://japancrags.com/">Japan Crags (crag guide)</a>
+  </footer>
+</div>
+
+<script>window.CW_ROOT = "../";</script>
+<script src="../shared.js"></script>
+<script src="../app.js"></script>
+</body>
+</html>

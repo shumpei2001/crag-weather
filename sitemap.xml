@@ -1,15 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://weather.japancrags.com/</loc>
-    <lastmod>2026-10-02</lastmod>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://weather.japancrags.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://weather.japancrags.com/en/"/>
+    <lastmod>2026-11-15</lastmod>
     <changefreq>daily</changefreq>
-    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://weather.japancrags.com/en/</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://weather.japancrags.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://weather.japancrags.com/en/"/>
+    <lastmod>2026-11-15</lastmod>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>https://weather.japancrags.com/mobile.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://weather.japancrags.com/mobile.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://weather.japancrags.com/en/mobile.html"/>
+    <lastmod>2026-11-15</lastmod>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>https://weather.japancrags.com/en/mobile.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://weather.japancrags.com/mobile.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://weather.japancrags.com/en/mobile.html"/>
+    <lastmod>2026-11-15</lastmod>
+    <changefreq>daily</changefreq>
   </url>
   <url>
     <loc>https://weather.japancrags.com/map.html</loc>
-    <lastmod>2026-10-02</lastmod>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://weather.japancrags.com/map.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://weather.japancrags.com/en/map.html"/>
+    <lastmod>2026-11-15</lastmod>
     <changefreq>daily</changefreq>
-    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://weather.japancrags.com/en/map.html</loc>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://weather.japancrags.com/map.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://weather.japancrags.com/en/map.html"/>
+    <lastmod>2026-11-15</lastmod>
+    <changefreq>daily</changefreq>
   </url>
 </urlset>

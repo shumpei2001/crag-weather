@@ -4,7 +4,32 @@
   background:var(--surface-raised);
 }
 
+/* The map page: the map fills the whole screen under a slim control bar. */
+body.map-page{padding:0;overflow:hidden;}
+.map-page .map-shell{display:flex;flex-direction:column;height:100vh;height:100dvh;}
+.map-page .map-bar{
+  display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;padding:8px 12px;
+  background:var(--surface);border-bottom:1px solid var(--border);z-index:1000;
+}
+.map-page .map-bar h1{font-size:19px;white-space:nowrap;}
+.map-page .map-bar .meta{gap:10px;font-size:12px;}
+.map-page .map-bar .grow{flex:1;}
+.map-page .map-bar .bar-controls{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;}
+.map-page .map-bar input[type="date"]{
+  border:1px solid var(--border);border-radius:8px;padding:6px 8px;background:var(--surface);
+  color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:13px;
+}
+.map-page .map-bar button{padding:6px 10px;font-size:13px;}
+.map-page .map-bar label.check{display:flex;align-items:center;gap:5px;font-size:12.5px;color:var(--text-muted);}
+.map-page .map-box{flex:1;min-height:0;height:auto;border:none;border-radius:0;box-shadow:none;}
+.map-legend{
+  background:var(--surface);color:var(--text-muted);border:1px solid var(--border);border-radius:8px;
+  padding:6px 10px;font-size:11.5px;display:flex;flex-direction:column;gap:3px;box-shadow:var(--shadow);
+}
+.map-legend .item{display:flex;align-items:center;gap:6px;}
+
 .leaflet-container.hide-labels .mp-tooltip{display:none;}
+.leaflet-container.hide-more-labels .mp-tooltip.more{display:none;}
 
 .mp-tooltip.leaflet-tooltip{
   background:var(--surface);color:var(--text);border:1px solid var(--border);

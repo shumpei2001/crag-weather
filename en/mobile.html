@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Japan Crag Weather (phone) - which crag is best today or this weekend?</title>
+<meta name="description" content="Pick a day and see climbing crags across Japan ranked by the lowest chance of rain. One-tap today, tomorrow and this weekend." />
+<link rel="canonical" href="https://weather.japancrags.com/en/mobile.html" />
+<link rel="alternate" hreflang="ja" href="https://weather.japancrags.com/mobile.html" data-path="../mobile.html" />
+<link rel="alternate" hreflang="en" href="https://weather.japancrags.com/en/mobile.html" data-path="mobile.html" />
+<link rel="alternate" hreflang="x-default" href="https://weather.japancrags.com/en/mobile.html" />
+<script>try{var p=localStorage.getItem("crag-weather-lang"),c=document.documentElement.lang;if(p&&p!==c){var a=document.querySelector('link[rel=alternate][hreflang="'+p+'"]');if(a)location.replace(a.getAttribute("data-path"))}}catch(e){}</script>
+<link rel="stylesheet" href="../style.css" />
+<link rel="stylesheet" href="../mobile.css" />
+</head>
+<body>
+<div class="wrap m-wrap">
+  <header>
+    <div class="header-top">
+      <div>
+        <p class="eyebrow">Japan Crag Weather &middot; Phone</p>
+        <h1>Japan Crag Weather</h1>
+      </div>
+      <nav class="view-nav">
+        <a class="view-switch" href="index.html" id="to-desktop">📋 Table</a>
+        <span class="view-switch active">📱 Phone</span>
+        <a class="view-switch" href="map.html">🗺 Map</a>
+        <a class="lang-btn" href="../mobile.html" hreflang="ja" lang="ja" data-lang="ja">日本語</a>
+      </nav>
+    </div>
+    <p class="sub">Pick the day you want to climb. Crags with the best weather that day come first. Tap a crag to see two days either side.</p>
+  </header>
+
+  <div class="chips" id="quick-dates"></div>
+
+  <div class="date-row">
+    <label for="date-input">Date</label>
+    <input type="date" id="date-input" />
+  </div>
+
+  <div class="m-filters">
+    <select id="pref-select" aria-label="Area"><option value="">All areas</option></select>
+    <button class="ghost fav-toggle" id="fav-toggle">☆ Favorites only</button>
+    <button class="ghost" id="edit-toggle">+ Edit places</button>
+  </div>
+  <p class="rank-hint">Crags with the lowest chance of rain come first.</p>
+
+  <div class="meta m-meta">
+    <span id="updated-label">Loading…</span>
+    <span class="hidden-note" id="hidden-note" style="display:none;"></span>
+    <button class="primary" id="refresh-btn">Refresh</button>
+  </div>
+
+  <div class="add-panel" id="add-panel">
+    <label for="add-input">Search for a crag or place to add</label>
+    <div class="add-row">
+      <input type="text" id="add-input" placeholder="For example: Ogawayama, Mizugaki" />
+      <button id="search-btn">Search</button>
+      <button class="ghost" id="cancel-add">Close</button>
+    </div>
+    <div class="search-results" id="search-results"></div>
+    <p class="hint">Searches with the Open-Meteo geocoder. Add a result to keep it (saved on this device only).</p>
+  </div>
+
+  <div class="locations m-locations" id="locations"></div>
+  <button class="ghost" id="more-btn" style="display:none;">Show more</button>
+
+  <div class="legend">
+    <span class="item"><span class="dot good"></span>Rain chance 20% or less</span>
+    <span class="item"><span class="dot caution"></span>20–50%</span>
+    <span class="item"><span class="dot poor"></span>Over 50%</span>
+  </div>
+
+  <footer>
+    Weather data: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>. Forecasts are for the crag's position; in mountains and valleys the real weather can differ.<br/>
+    <a href="https://japancrags.com/">Japan Crags (crag guide)</a>
+  </footer>
+</div>
+
+<script>window.CW_ROOT = "../";</script>
+<script src="../shared.js"></script>
+<script src="../mobile.js"></script>
+</body>
+</html>

@@ -4,64 +4,48 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>岩場天気マップ - クライミング岩場の天気を地図で確認</title>
-<meta name="description" content="全国のクライミング・ボルダリングの岩場を地図上のピンで表示し、タップすると天気予報がポップアップで見られる無料ツール。" />
+<meta name="description" content="全国190か所以上のクライミング・ボルダリングの岩場を、画面いっぱいの地図のピンで表示。ピンをタップすると天気予報がポップアップで見られる無料ツール。" />
 <meta name="robots" content="index,follow" />
 <link rel="canonical" href="https://weather.japancrags.com/map.html" />
+<link rel="alternate" hreflang="ja" href="https://weather.japancrags.com/map.html" data-path="map.html" />
+<link rel="alternate" hreflang="en" href="https://weather.japancrags.com/en/map.html" data-path="en/map.html" />
+<link rel="alternate" hreflang="x-default" href="https://weather.japancrags.com/en/map.html" />
+<script>try{var p=localStorage.getItem("crag-weather-lang"),c=document.documentElement.lang;if(p&&p!==c){var a=document.querySelector('link[rel=alternate][hreflang="'+p+'"]');if(a)location.replace(a.getAttribute("data-path"))}}catch(e){}</script>
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="岩場天気ボード" />
 <meta property="og:title" content="岩場天気マップ - クライミング岩場の天気を地図で確認" />
-<meta property="og:description" content="全国のクライミング・ボルダリングの岩場を地図上のピンで表示し、タップすると天気予報がポップアップで見られる無料ツール。" />
+<meta property="og:description" content="全国190か所以上のクライミング・ボルダリングの岩場を地図上のピンで表示し、タップすると天気予報がポップアップで見られる無料ツール。" />
 <meta property="og:url" content="https://weather.japancrags.com/map.html" />
 <meta property="og:locale" content="ja_JP" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
 <link rel="stylesheet" href="style.css" />
 <link rel="stylesheet" href="map.css" />
 </head>
-<body>
-<div class="wrap">
-  <header>
-    <div class="header-top">
-      <div>
-        <p class="eyebrow">Japan Crag Weather &middot; Map</p>
-        <h1>岩場天気マップ</h1>
-      </div>
-      <nav class="view-nav">
-        <a class="view-switch" href="index.html">📋 一覧</a>
-        <a class="view-switch" href="mobile.html">📱 スマホ</a>
-        <span class="view-switch active">🗺 地図</span>
-      </nav>
+<body class="map-page">
+<div class="map-shell">
+  <div class="map-bar">
+    <h1>岩場天気マップ</h1>
+    <nav class="view-nav">
+      <a class="view-switch" href="index.html">📋 一覧</a>
+      <a class="view-switch" href="mobile.html">📱 スマホ</a>
+      <span class="view-switch active">🗺 地図</span>
+      <a class="lang-btn" href="en/map.html" hreflang="en" lang="en" data-lang="en">English</a>
+    </nav>
+    <span class="grow"></span>
+    <div class="bar-controls">
+      <label for="date-input" class="check">日付</label>
+      <input type="date" id="date-input" />
+      <label class="check"><input type="checkbox" id="more-toggle" checked /> その他の岩場も表示</label>
+      <button class="ghost fav-toggle" id="fav-toggle">☆ お気に入りのみ</button>
+      <button class="primary" id="refresh-btn">更新</button>
     </div>
-    <p class="sub">日付を選ぶと、その日を中心にピンの色とポップアップが切り替わります。</p>
-  </header>
-
-  <div class="toprow">
     <div class="meta">
       <span>登録数 <b id="count-label">–</b> か所</span>
       <span id="updated-label">読み込み中…</span>
     </div>
-    <div style="display:flex;gap:8px;align-items:center;">
-      <button class="ghost fav-toggle" id="fav-toggle">☆ お気に入りのみ</button>
-      <button class="primary" id="refresh-btn">更新</button>
-    </div>
-  </div>
-
-  <div class="date-row">
-    <label for="date-input">日付</label>
-    <input type="date" id="date-input" />
-  </div>
-
-  <div class="legend">
-    <span class="item"><span class="dot good"></span>選んだ日の降水確率20%以下</span>
-    <span class="item"><span class="dot caution"></span>20〜50%</span>
-    <span class="item"><span class="dot poor"></span>50%超</span>
   </div>
 
   <div id="map" class="map-box"></div>
-
-  <footer>
-    地図: <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">&copy; OpenStreetMap contributors</a>　天気データ: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a><br/>
-    地点の追加・削除は<a href="index.html">一覧表示</a>・<a href="mobile.html">スマホ表示</a>から行えます。
-  </footer>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>

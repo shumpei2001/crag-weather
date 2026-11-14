@@ -1,12 +1,15 @@
+// Phone page: pick a day, get the crags ranked for that day, best first.
+// Tap a crag to see the days around it.
 (function(){
   "use strict";
   var S = window.CragShared;
+  var t = S.t;
 
   var locationsEl = document.getElementById("locations");
-  var jumpRow = document.getElementById("jump-row");
   var updatedLabel = document.getElementById("updated-label");
   var refreshBtn = document.getElementById("refresh-btn");
   var dateInput = document.getElementById("date-input");
+  var quickEl = document.getElementById("quick-dates");
   var hiddenNote = document.getElementById("hidden-note");
   var editToggle = document.getElementById("edit-toggle");
   var addPanel = document.getElementById("add-panel");
@@ -15,25 +18,32 @@
   var cancelAdd = document.getElementById("cancel-add");
   var searchResults = document.getElementById("search-results");
   var toDesktop = document.getElementById("to-desktop");
+  var prefSelect = document.getElementById("pref-select");
+  var moreBtn = document.getElementById("more-btn");
 
+  var PAGE = 30;
   var locations = [];
   var forecasts = {};
   var editor = null;
+  var limit = PAGE;
+  var openId = null;
 
   // Coming back to the desktop list on purpose shouldn't immediately bounce
   // back here via its narrow-screen auto-redirect.
-  toDesktop.addEventListener("click", function(){
-    try{ sessionStorage.setItem("crag-weather-prefer-desktop", "1"); }catch(e){}
-  });
+  if(toDesktop){
+    toDesktop.addEventListener("click", function(){
+      try{ sessionStorage.setItem("crag-weather-prefer-desktop", "1"); }catch(e){}
+    });
+  }
 
   function renderHiddenNote(){
     var hidden = S.loadHidden();
     if(hidden.length === 0){ hiddenNote.style.display = "none"; return; }
     hiddenNote.style.display = "inline";
-    hiddenNote.innerHTML = "非表示 " + hidden.length + "件";
+    hiddenNote.innerHTML = t("hiddenN", hidden.length);
     var btn = document.createElement("button");
     btn.className = "ghost";
-    btn.textContent = "すべて表示";
+    btn.textContent = t("showAll");
     btn.addEventListener("click", function(){
       S.saveHidden([]);
       render();
@@ -41,79 +51,100 @@
     hiddenNote.appendChild(btn);
   }
 
-  function renderJumpRow(){
-    var visible = S.visibleOf(locations);
-    jumpRow.innerHTML = "";
-    visible.forEach(function(loc){
-      var a = document.createElement("a");
-      a.className = "jump-chip";
-      a.href = "#card-" + loc.id;
-      a.textContent = loc.name;
-      a.addEventListener("click", function(e){
-        e.preventDefault();
-        var el = document.getElementById("card-" + loc.id);
-        if(el) el.scrollIntoView({behavior:"smooth", block:"start"});
-      });
-      jumpRow.appendChild(a);
-    });
+  function chosenDate(){ return dateInput.value || S.todayISO(); }
+
+  function renderQuick(){
+    var d = chosenDate();
+    var items = [
+      { label: t("today"), iso: S.todayISO() },
+      { label: t("tomorrow"), iso: S.addDaysISO(S.todayISO(), 1) },
+      { label: t("sat") + " " + S.fmtDate(S.nextDowISO(6)), iso: S.nextDowISO(6) },
+      { label: t("sun") + " " + S.fmtDate(S.nextDowISO(0)), iso: S.nextDowISO(0) }
+    ];
+    // Leave out a shortcut whose date is already shown by an earlier one (on a weekend, Sat/Sun can be today).
+    var seen = {};
+    items = items.filter(function(it){ if(seen[it.iso]) return false; seen[it.iso] = true; return true; });
+    quickEl.innerHTML = items.map(function(it){
+      return '<button class="chip' + (it.iso === d ? " on" : "") + '" data-date="' + it.iso + '">' + S.esc(it.label) + '</button>';
+    }).join("");
   }
 
-  function windowRange(){
-    var d = dateInput.value || S.todayISO();
-    return { start: S.addDaysISO(d, -2), end: S.addDaysISO(d, 2) };
+  function stripHtml(data, iso){
+    var d = data.daily;
+    var center = d.time.indexOf(iso);
+    if(center === -1) center = 0;
+    var from = Math.max(0, center - 2), to = Math.min(d.time.length - 1, center + 2);
+    var html = '<div class="strip fit" style="--cols:' + (to - from + 1) + '">';
+    for(var i = from; i <= to; i++){
+      html += S.dayCellHtml(d.time[i], d.weathercode[i], d.temperature_2m_max[i], d.temperature_2m_min[i],
+        d.precipitation_probability_max ? d.precipitation_probability_max[i] : null);
+    }
+    return html + '</div>';
   }
 
-  function renderCards(){
-    var visible = S.visibleOf(locations);
-    var range = windowRange();
+  function render(){
+    renderHiddenNote();
+    renderQuick();
+    S.fillPrefSelect(prefSelect, locations);
+    var iso = chosenDate();
+    var pref = prefSelect.value;
+    var list = S.visibleOf(locations).filter(function(l){ return !pref || l.prefecture === pref; });
+    var idxOf = function(loc){
+      var d = forecasts[loc.id];
+      return d && d.daily ? d.daily.time.indexOf(iso) : -1;
+    };
+    var scored = list.map(function(loc){
+      return { loc: loc, score: S.dayScore(forecasts[loc.id], idxOf(loc)) };
+    }).sort(function(a, b){ return a.score - b.score; });
+
+    var shown = scored.slice(0, limit);
     locationsEl.innerHTML = "";
-    visible.forEach(function(loc){
-      var card = document.createElement("div");
-      card.className = "card";
-      card.id = "card-" + loc.id;
-      var removeBtn = editor && editor.isEditMode() ? '<button class="icon-btn" data-remove="' + loc.id + '">✕ 削除</button>' : "";
-      var head = '<div class="card-head"><div class="card-title">' + S.starBtnHtml(loc.id) + '<h2>' + loc.name + '</h2>' +
-        '<span class="region">' + loc.region + '</span></div>' + removeBtn + '</div>';
+    shown.forEach(function(item, n){
+      var loc = item.loc;
       var data = forecasts[loc.id];
-      var body;
+      var i = idxOf(loc);
+      var card = document.createElement("div");
+      card.className = "card rank-card" + (openId === loc.id ? " open" : "");
+      card.id = "card-" + loc.id;
+      var removeBtn = editor && editor.isEditMode() ? '<button class="icon-btn" data-remove="' + loc.id + '">' + t("remove") + '</button>' : "";
+      var summary;
       if(!data){
-        body = '<div class="strip">' + '<div class="day"></div>'.repeat(5) + '</div>';
+        summary = '<span class="rk-load">' + t("loading") + '</span>';
         card.classList.add("skeleton");
-      }else if(data.error){
-        body = '<div class="row-error"><span>天気の取得に失敗しました</span>' +
-          '<button data-retry="' + loc.id + '">再試行</button></div>';
+      }else if(!data.daily || i === -1){
+        summary = '<span class="rk-load">' + t("failWeather") + '</span>';
       }else{
         var d = data.daily;
-        var idxs = [];
-        for(var i=0;i<d.time.length;i++){
-          if(d.time[i] >= range.start && d.time[i] <= range.end) idxs.push(i);
-        }
-        var cols = Math.max(idxs.length, 1);
-        var html = '<div class="strip fit" style="--cols:' + cols + '">';
-        idxs.forEach(function(i){
-          html += S.dayCellHtml(
-            d.time[i], d.weathercode[i], d.temperature_2m_max[i], d.temperature_2m_min[i],
-            d.precipitation_probability_max ? d.precipitation_probability_max[i] : null
-          );
-        });
-        html += '</div>';
-        body = html;
+        var w = S.WMO[d.weathercode[i]] || ["🌡️","-"];
+        var pop = d.precipitation_probability_max ? d.precipitation_probability_max[i] : null;
+        summary = '<span class="rk-icon" title="' + S.esc(w[1]) + '">' + w[0] + '</span>' +
+          '<span class="rk-temps"><b>' + Math.round(d.temperature_2m_max[i]) + '°</b>/' + Math.round(d.temperature_2m_min[i]) + '°</span>' +
+          '<span class="pop ' + S.classify(pop) + '">' + (pop === null || pop === undefined ? "–" : pop + "%") + '</span>';
       }
-      card.innerHTML = head + body;
+      card.innerHTML =
+        '<div class="rk-row" data-open="' + loc.id + '">' +
+          '<span class="rk-n">' + (n + 1) + '</span>' +
+          '<span class="rk-name">' + S.starBtnHtml(loc.id) + '<span class="nm">' + S.esc(S.nm(loc)) + '</span>' +
+            '<span class="region">' + S.esc(S.rg(loc)) + '</span></span>' +
+          '<span class="rk-sum">' + summary + '</span>' + removeBtn +
+        '</div>' +
+        (openId === loc.id && data && data.daily ? stripHtml(data, iso) : "");
       locationsEl.appendChild(card);
     });
+    var rest = scored.length - shown.length;
+    moreBtn.style.display = rest > 0 ? "block" : "none";
+    moreBtn.textContent = t("moreN", rest);
+    if(!scored.length) locationsEl.innerHTML = '<p class="hint">' + S.esc(S.emptyMessage()) + '</p>';
   }
 
   function loadAll(){
-    renderJumpRow();
-    renderHiddenNote();
     var visible = S.visibleOf(locations);
-    renderCards();
+    render();
     if(!visible.length){
       updatedLabel.textContent = S.emptyMessage();
       return;
     }
-    updatedLabel.textContent = "取得中…";
+    updatedLabel.textContent = t("fetching");
     refreshBtn.disabled = true;
     S.getForecasts(visible, 16).then(function(result){
       forecasts = result.map;
@@ -126,56 +157,63 @@
         dateInput.max = first.daily.time[first.daily.time.length - 1];
         if(!dateInput.value) dateInput.value = first.daily.time[0];
       }
-      renderCards();
-      updatedLabel.innerHTML = "最終更新 <b>" + S.fmtUpdated(result.generatedAt) + "</b>";
+      render();
+      updatedLabel.innerHTML = t("updated") + " <b>" + S.fmtUpdated(result.generatedAt) + "</b>";
       refreshBtn.disabled = false;
     }).catch(function(){
       forecasts = {};
       visible.forEach(function(loc){ forecasts[loc.id] = {error:true}; });
-      renderCards();
-      updatedLabel.textContent = "取得に失敗しました";
+      render();
+      updatedLabel.textContent = t("fail");
       refreshBtn.disabled = false;
     });
   }
 
-  function render(){ loadAll(); }
-
-  dateInput.addEventListener("change", renderCards);
+  dateInput.addEventListener("change", function(){ limit = PAGE; render(); });
+  prefSelect.addEventListener("change", function(){ limit = PAGE; render(); });
+  moreBtn.addEventListener("click", function(){ limit += PAGE; render(); });
+  quickEl.addEventListener("click", function(e){
+    var b = e.target.closest("[data-date]");
+    if(!b) return;
+    dateInput.value = b.getAttribute("data-date");
+    limit = PAGE;
+    render();
+  });
 
   locationsEl.addEventListener("click", function(e){
-    var retryId = e.target.getAttribute("data-retry");
-    if(retryId){
-      var loc = locations.find(function(l){ return l.id === retryId; });
-      if(loc){
-        S.fetchForecastOne(loc, 16).then(function(data){ forecasts[loc.id] = data; renderCards(); })
-          .catch(function(){ forecasts[loc.id] = {error:true}; renderCards(); });
-      }
-      return;
-    }
+    if(e.target.closest("[data-fav]")) return;
     var removeId = e.target.getAttribute("data-remove");
     if(removeId){
       editor.removeOrHide(removeId);
-      S.loadCrags().then(function(all){ locations = all; render(); });
+      S.loadCrags().then(function(all){ locations = all; loadAll(); });
+      return;
+    }
+    var row = e.target.closest("[data-open]");
+    if(row){
+      var id = row.getAttribute("data-open");
+      openId = (openId === id) ? null : id;
+      render();
     }
   });
 
   refreshBtn.addEventListener("click", loadAll);
 
   S.bindFavClicks(locationsEl, function(id, on){
-    if(!on && S.loadFavOnly()) render();
+    if(!on && S.loadFavOnly()) loadAll();
   });
-  S.initFavToggle(document.getElementById("fav-toggle"), render);
+  S.initFavToggle(document.getElementById("fav-toggle"), loadAll);
 
   editor = S.initEditor({
     addInput: addInput, searchBtn: searchBtn, cancelBtn: cancelAdd,
     resultsEl: searchResults, editToggle: editToggle, addPanel: addPanel,
-    onChange: render
+    onChange: loadAll
   });
+  S.initLangMemory();
 
   S.loadCrags().then(function(all){
     locations = all;
-    render();
+    loadAll();
   }).catch(function(){
-    updatedLabel.textContent = "crags.json の読み込みに失敗しました";
+    updatedLabel.textContent = t("cragsFail");
   });
 })();

@@ -5,18 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="google-site-verification" content="5ssYtraUN7Qin5nMZVp0XB-z2Ccbjzz2m-BGXpXzD_s" />
 <title>岩場天気ボード - クライミング岩場の天気予報まとめ</title>
-<meta name="description" content="全国のクライミング・ボルダリングの岩場、最寄り町の天気予報をまとめて比較できる無料ツール。16日間の予報を一覧・地図・スマホ向けカレンダーから確認できます。" />
+<meta name="description" content="全国190か所以上のクライミング・ボルダリングの岩場の天気予報を、16日分まとめて比較できる無料ツール。一覧・地図・スマホ向けのおすすめ順表示から確認できます。" />
 <meta name="robots" content="index,follow" />
 <link rel="canonical" href="https://weather.japancrags.com/" />
+<link rel="alternate" hreflang="ja" href="https://weather.japancrags.com/" data-path="./" />
+<link rel="alternate" hreflang="en" href="https://weather.japancrags.com/en/" data-path="en/" />
+<link rel="alternate" hreflang="x-default" href="https://weather.japancrags.com/en/" />
+<script>try{var p=localStorage.getItem("crag-weather-lang"),c=document.documentElement.lang;if(p&&p!==c){var a=document.querySelector('link[rel=alternate][hreflang="'+p+'"]');if(a)location.replace(a.getAttribute("data-path"))}}catch(e){}</script>
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="岩場天気ボード" />
 <meta property="og:title" content="岩場天気ボード - クライミング岩場の天気予報まとめ" />
-<meta property="og:description" content="全国のクライミング・ボルダリングの岩場、最寄り町の天気予報をまとめて比較できる無料ツール。" />
+<meta property="og:description" content="全国190か所以上のクライミング・ボルダリングの岩場の天気予報を、16日分まとめて比較できる無料ツール。" />
 <meta property="og:url" content="https://weather.japancrags.com/" />
 <meta property="og:locale" content="ja_JP" />
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content="岩場天気ボード - クライミング岩場の天気予報まとめ" />
-<meta name="twitter:description" content="全国のクライミング・ボルダリングの岩場、最寄り町の天気予報をまとめて比較できる無料ツール。" />
+<meta name="twitter:description" content="全国190か所以上のクライミング・ボルダリングの岩場の天気予報を、16日分まとめて比較できる無料ツール。" />
 <link rel="stylesheet" href="style.css" />
 <script type="application/ld+json">
 {
@@ -24,7 +28,7 @@
   "@type": "WebApplication",
   "name": "岩場天気ボード",
   "url": "https://weather.japancrags.com/",
-  "description": "全国のクライミング・ボルダリングの岩場、最寄り町の天気予報をまとめて比較できる無料ツール。",
+  "description": "全国190か所以上のクライミング・ボルダリングの岩場の天気予報を、16日分まとめて比較できる無料ツール。",
   "applicationCategory": "UtilitiesApplication",
   "operatingSystem": "Any",
   "inLanguage": "ja",
@@ -33,7 +37,7 @@
 </script>
 <script>
   // Narrow-screen visitors get the touch-friendly layout automatically;
-  // a visitor who came back here on purpose (via the mobile page's nav) is left alone.
+  // a visitor who came back here on purpose (via the phone page's nav) is left alone.
   try{
     var prefersDesktop = sessionStorage.getItem("crag-weather-prefer-desktop") === "1";
     if(!prefersDesktop && window.matchMedia("(max-width: 700px)").matches){
@@ -43,7 +47,7 @@
 </script>
 </head>
 <body>
-<div class="wrap">
+<div class="wrap wide">
   <header>
     <div class="header-top">
       <div>
@@ -54,22 +58,29 @@
         <span class="view-switch active">📋 一覧</span>
         <a class="view-switch" href="mobile.html">📱 スマホ</a>
         <a class="view-switch" href="map.html">🗺 地図</a>
+        <a class="lang-btn" href="en/" hreflang="en" lang="en" data-lang="en">English</a>
       </nav>
     </div>
-    <p class="sub">登録した岩場の最寄り町・地域の天気を横並びで比較。1枚をスクロールすると全部そろって動きます。</p>
+    <p class="sub">全国の岩場を1行ずつ、16日分の天気を横に並べて比べられます。日付をクリックすると、その日に降水確率が低い順に並べ替えます。</p>
   </header>
 
   <div class="toprow">
     <div class="meta">
-      <span>登録数 <b id="count-label">–</b> か所</span>
+      <span id="shown-label">–</span>
       <span id="updated-label">読み込み中…</span>
     </div>
-    <div style="display:flex;gap:8px;align-items:center;">
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
       <span class="hidden-note" id="hidden-note" style="display:none;"></span>
       <button class="ghost fav-toggle" id="fav-toggle">☆ お気に入りのみ</button>
       <button class="ghost" id="edit-toggle">＋ 場所を編集</button>
       <button class="primary" id="refresh-btn">更新</button>
     </div>
+  </div>
+
+  <div class="filters">
+    <select id="pref-select" aria-label="地域"><option value="">すべての地域</option></select>
+    <input type="search" id="query-input" placeholder="岩場を検索" aria-label="岩場を検索" />
+    <label class="check"><input type="checkbox" id="more-toggle" checked /> その他の岩場も表示</label>
   </div>
 
   <div class="legend">
@@ -89,10 +100,11 @@
     <p class="hint">Open-Meteoのジオコーディングで検索します。ヒットしたら追加してください（この端末にのみ保存されます）。</p>
   </div>
 
-  <div class="locations" id="locations"></div>
+  <div class="matrix-wrap" id="matrix"></div>
 
   <footer>
-    天気データ: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>。岩場の正確な位置ではなく最寄りの町・地域の予報です。参考程度にご利用ください。
+    天気データ: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>。岩場の位置の予報です（山や谷では実際と差が出ることがあります）。参考程度にご利用ください。<br/>
+    <a href="https://japancrags.com/ja/">Japan Crags（岩場ガイド）</a>
   </footer>
 </div>
 

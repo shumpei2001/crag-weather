@@ -3,9 +3,13 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>岩場天気ボード（スマホ表示） - クライミング岩場の天気予報まとめ</title>
-<meta name="description" content="全国のクライミング・ボルダリングの岩場の天気予報を、日付を選んで前後2日分までまとめて確認できるスマホ向けページ。" />
-<link rel="canonical" href="https://weather.japancrags.com/" />
+<title>岩場天気ボード（スマホ表示） - 今日・今週末、どの岩場が登れそう？</title>
+<meta name="description" content="日付を選ぶと、全国の岩場を降水確率の低い順に並べて表示するスマホ向けページ。今日・明日・今週末のワンタップ切り替えつき。" />
+<link rel="canonical" href="https://weather.japancrags.com/mobile.html" />
+<link rel="alternate" hreflang="ja" href="https://weather.japancrags.com/mobile.html" data-path="mobile.html" />
+<link rel="alternate" hreflang="en" href="https://weather.japancrags.com/en/mobile.html" data-path="en/mobile.html" />
+<link rel="alternate" hreflang="x-default" href="https://weather.japancrags.com/en/mobile.html" />
+<script>try{var p=localStorage.getItem("crag-weather-lang"),c=document.documentElement.lang;if(p&&p!==c){var a=document.querySelector('link[rel=alternate][hreflang="'+p+'"]');if(a)location.replace(a.getAttribute("data-path"))}}catch(e){}</script>
 <link rel="stylesheet" href="style.css" />
 <link rel="stylesheet" href="mobile.css" />
 </head>
@@ -14,35 +18,37 @@
   <header>
     <div class="header-top">
       <div>
-        <p class="eyebrow">Japan Crag Weather &middot; Mobile</p>
+        <p class="eyebrow">Japan Crag Weather &middot; Phone</p>
         <h1>岩場天気ボード</h1>
       </div>
       <nav class="view-nav">
         <a class="view-switch" href="index.html" id="to-desktop">📋 一覧</a>
         <span class="view-switch active">📱 スマホ</span>
         <a class="view-switch" href="map.html">🗺 地図</a>
+        <a class="lang-btn" href="en/mobile.html" hreflang="en" lang="en" data-lang="en">English</a>
       </nav>
     </div>
-    <p class="sub">日付を選ぶと、その前後2日分を登録した岩場ぜんぶで一気にチェックできます。</p>
+    <p class="sub">登りに行く日を選ぶと、その日にいちばん天気がよさそうな岩場から順に表示します。岩場をタップすると前後2日も見られます。</p>
   </header>
 
-  <div class="meta m-meta">
-    <span id="updated-label">読み込み中…</span>
-    <button class="primary" id="refresh-btn">更新</button>
-  </div>
+  <div class="chips" id="quick-dates"></div>
 
   <div class="date-row">
     <label for="date-input">日付</label>
     <input type="date" id="date-input" />
-    <span class="date-hint">前後2日を表示</span>
   </div>
 
-  <div class="toprow">
+  <div class="m-filters">
+    <select id="pref-select" aria-label="地域"><option value="">すべての地域</option></select>
+    <button class="ghost fav-toggle" id="fav-toggle">☆ お気に入りのみ</button>
+    <button class="ghost" id="edit-toggle">＋ 場所を編集</button>
+  </div>
+  <p class="rank-hint">降水確率が低い岩場から順に並べています。</p>
+
+  <div class="meta m-meta">
+    <span id="updated-label">読み込み中…</span>
     <span class="hidden-note" id="hidden-note" style="display:none;"></span>
-    <div style="display:flex;gap:8px;align-items:center;">
-      <button class="ghost fav-toggle" id="fav-toggle">☆ お気に入りのみ</button>
-      <button class="ghost" id="edit-toggle">＋ 場所を編集</button>
-    </div>
+    <button class="primary" id="refresh-btn">更新</button>
   </div>
 
   <div class="add-panel" id="add-panel">
@@ -56,9 +62,8 @@
     <p class="hint">Open-Meteoのジオコーディングで検索します。ヒットしたら追加してください（この端末にのみ保存されます）。</p>
   </div>
 
-  <div class="jump-row" id="jump-row"></div>
-
   <div class="locations m-locations" id="locations"></div>
+  <button class="ghost" id="more-btn" style="display:none;">もっと見る</button>
 
   <div class="legend">
     <span class="item"><span class="dot good"></span>降水確率20%以下</span>
@@ -67,7 +72,8 @@
   </div>
 
   <footer>
-    天気データ: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>。岩場の正確な位置ではなく最寄りの町・地域の予報です。
+    天気データ: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>。岩場の位置の予報です（山や谷では実際と差が出ることがあります）。<br/>
+    <a href="https://japancrags.com/ja/">Japan Crags（岩場ガイド）</a>
   </footer>
 </div>
 
