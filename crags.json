@@ -26,7 +26,7 @@
   {"id":"haruna-kuroiwa","name":"榛名山黒岩","region":"高崎市","prefecture":"群馬県","lat":36.4616114,"lon":138.896609,"priority":26,"tier":"main","nameEn":"Haruna Kuroiwa","regionEn":"Takasaki","prefectureEn":"Gunma","appId":"c025"},
   {"id":"saku-shiga","name":"佐久志賀","region":"佐久市","prefecture":"長野県","lat":36.2400484,"lon":138.499043,"priority":25,"tier":"main","nameEn":"Saku Shiga","regionEn":"Saku","prefectureEn":"Nagano","appId":"c026"},
   {"id":"shosenkyo","name":"昇仙峡","region":"甲府市","prefecture":"山梨県","lat":35.7494911,"lon":138.565943,"priority":24,"tier":"main","nameEn":"Shosenkyo","regionEn":"Kofu","prefectureEn":"Yamanashi","appId":"c027"},
-  {"id":"kabutoiwa","name":"兜岩","region":"大月市","prefecture":"山梨県","lat":35.6219654,"lon":138.9404314,"priority":23,"tier":"main","nameEn":"Kabutoiwa","regionEn":"Otsuki","prefectureEn":"Yamanashi","appId":"c028"},
+  {"id":"kabutoiwa","name":"兜岩","region":"笛吹市","prefecture":"山梨県","lat":35.686078,"lon":138.6333505,"priority":23,"tier":"main","nameEn":"Kabutoiwa","regionEn":"Fuefuki","prefectureEn":"Yamanashi","appId":"c028"},
   {"id":"c029","name":"鷲頭山","nameEn":"Washizusan","region":"沼津市","prefecture":"静岡県","prefectureEn":"Shizuoka","lat":35.06427,"lon":138.88866,"priority":0,"tier":"more","appId":"c029"},
   {"id":"c030","name":"沢口沢","nameEn":"Sawaguchisawa","region":"静岡市葵区","prefecture":"静岡県","prefectureEn":"Shizuoka","lat":35.09055,"lon":138.38911,"priority":0,"tier":"more","appId":"c030"},
   {"id":"c032","name":"城山","nameEn":"Joyama","region":"伊豆の国市","prefecture":"静岡県","prefectureEn":"Shizuoka","lat":35.004,"lon":138.93036,"priority":0,"tier":"more","appId":"c032"},
