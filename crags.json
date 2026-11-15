@@ -3,7 +3,7 @@
   {"id":"otaru-akaiwa","name":"小樽赤岩","region":"小樽市","prefecture":"北海道","lat":43.212,"lon":140.958,"priority":8,"tier":"main","nameEn":"Otaru Akaiwa","regionEn":"Otaru","prefectureEn":"Hokkaido","appId":"c002"},
   {"id":"kamuikotan","name":"神居古潭","region":"旭川市","prefecture":"北海道","lat":43.744,"lon":142.238,"priority":7,"tier":"main","nameEn":"Kamuikotan","regionEn":"Asahikawa","prefectureEn":"Hokkaido","appId":"c003"},
   {"id":"okutateiwa","name":"奥立岩","region":"旭川市","prefecture":"北海道","lat":43.7849,"lon":142.3073,"priority":6,"tier":"main","nameEn":"Okutateiwa","regionEn":"Asahikawa","prefectureEn":"Hokkaido","appId":"c004"},
-  {"id":"nayoro","name":"名寄","region":"名寄市","prefecture":"北海道","lat":44.3559,"lon":142.4592,"priority":5,"tier":"main","nameEn":"Nayoro","regionEn":"Nayoro","prefectureEn":"Hokkaido","appId":"c005"},
+  {"id":"nayoro","name":"名寄","region":"名寄市","prefecture":"北海道","lat":44.36235,"lon":142.536029,"priority":5,"tier":"main","nameEn":"Nayoro","regionEn":"Nayoro","prefectureEn":"Hokkaido","appId":"c005"},
   {"id":"yoshitsune","name":"義経岩","region":"様似町(日高)","prefecture":"北海道","lat":42.1219,"lon":142.8722,"priority":4,"tier":"main","nameEn":"Yoshitsune-iwa","regionEn":"Toyako","prefectureEn":"Hokkaido","appId":"c006"},
   {"id":"shibetsu-asahi","name":"士別朝日","region":"士別市朝日町","prefecture":"北海道","lat":43.99,"lon":142.32,"priority":3,"tier":"main","nameEn":"Shibetsu Asahi","regionEn":"Shibetsu","prefectureEn":"Hokkaido","appId":"c007"},
   {"id":"tenninkyo","name":"天人峡","region":"東川町","prefecture":"北海道","lat":43.702,"lon":142.679,"priority":2,"tier":"main","nameEn":"Tenninkyo","regionEn":"Higashikawa","prefectureEn":"Hokkaido","appId":"c008"},
